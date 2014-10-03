@@ -1,0 +1,50 @@
+## ui.R
+
+require(shiny)
+countrynames <- readLines('countrynames')
+shinyUI(pageWithSidebar(
+  headerPanel(img(src = "http://demandinstitute.org/sites/default/files/demand_institute_logo.png"),
+              windowTitle = "The Demand Institute"),
+  
+  sidebarPanel(
+    selectInput(inputId = "Choose countries fr",
+                label = h3("Select countries"),
+                choices = countrynames,
+                selected = c('China', 
+                             'Korea, Republic Of',
+                             'Hong Kong',
+                             'Singapore',
+                             'India',
+                             'United States'),
+                multiple = TRUE),
+    radioButtons(inputId = "transform_x",
+                 label = h4("Transform X axis?"),
+                 choices = list("None (level)" = 1,
+                                "Logarithmic" = 2),
+                 selected = 1),
+    radioButtons(inputId = "transform_y",
+                 label = h4("Transform Y axis?"),
+                 choices = list("None (level)" = 1,
+                                "Logarithmic" = 2),
+                 selected = 1),
+    radioButtons(inputId = "path",
+                 label = h4("Plot path?"),
+                 choices = list("No" = 1,
+                                "Yes" = 2),
+                 selected = 1),
+    radioButtons(inputId = "years",
+                 label = h4("Show years?"),
+                 choices = list("No" = 1,
+                                "Yes" = 2),
+                 selected = 1),
+    sliderInput(inputId = "point_size",
+                label = h4("Size of points"),
+                min = 1,
+                max = 20,
+                value = 7)
+                 ),
+  mainPanel(
+    h3("Example: Plotting consumption & income"),
+    plotOutput("myChart"),
+    h5("Source: World Development Indicators (2013)")
+  )))
